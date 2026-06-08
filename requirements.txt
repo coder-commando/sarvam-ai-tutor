@@ -7,3 +7,4 @@ pypdf>=4.0.0
 pymupdf>=1.24.0
 pillow>=10.0.0
 yt-dlp>=2024.5.27
+sarvamai>=0.1.0
