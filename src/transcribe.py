@@ -17,8 +17,8 @@ load_dotenv()
 # === Configuration ===
 AUDIO_PATH = "data/lecture.mp3"
 OUTPUT_TRANSCRIPT_PATH = "data/transcript.json"
-LANGUAGE_CODE = "hi-IN"   # Change as needed: en-IN, ta-IN, te-IN, "unknown" for auto-detect
-MODE = "transcribe"        # transcribe = same language; translate = to English
+LANGUAGE_CODE = "unknown"   # Change as needed: en-IN, ta-IN, te-IN, "unknown" for auto-detect
+MODE = "codemix"        # transcribe = same language; translate = to English
 MODEL = "saaras:v3"
 JOB_OUTPUT_DIR = "data/batch_output"
 
