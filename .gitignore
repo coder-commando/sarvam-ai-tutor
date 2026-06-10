@@ -23,10 +23,23 @@ env/
 .DS_Store
 Thumbs.db
 
-# Project-specific
-data/*.pdf
+# Project-specific - data files
 data/*.mp3
 data/*.wav
+data/*.m4a
+data/*.webm
+data/*.ogg
+data/*.flac
+data/*.aac
+data/*.pdf
 data/*.json
 data/chroma_db/
+data/batch_output/
+data/tts_test.wav
+data/test.wav
+data/test.m4a
+
+# But keep a placeholder so the data/ folder exists in the repo
+!data/.gitkeep
+
 *.log
