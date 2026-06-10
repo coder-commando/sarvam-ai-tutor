@@ -61,6 +61,8 @@ bash
 git clone git@github.com:coder-commando/sarvam-ai-tutor.git
 cd sarvam-ai-tutor
 
+*Important:* You'll need to activate the virtual environment every time you open a new terminal session for this project. If you see ModuleNotFoundError, that's the most likely cause — re-run the activation command above. When the venv is active, your shell prompt will show (venv) at the start
+
 python -m venv venv
 # Windows:
 .\venv\Scripts\Activate.ps1
@@ -140,9 +142,7 @@ Audio gaps in transcript. The source video has ~3 minutes of non-speech content 
 Future work I'd prioritise:
 
 Re-rank retrieval results with a small cross-encoder for sharper top-K
-Add a topic-classification step before retrieval to detect out-of-scope queries upfront
 Stream the LLM response and start TTS on completed sentences
-Multi-turn conversation memory
 Auto-detect and suggest a different language if response quality is low
 
 Sample interactions
