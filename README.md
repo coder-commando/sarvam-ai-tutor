@@ -54,6 +54,7 @@ Python 3.10+ (tested on 3.13)
 FFmpeg (for audio download/conversion)
 ~3GB free disk space (for BGE-M3 embedding model cache)
 A Sarvam API key (free tier sufficient for testing) — get one at https://dashboard.sarvam.ai
+
 Installation
 
 bash
@@ -78,7 +79,7 @@ cp .env.example .env
 One-time data preparation
 
 bash
-yt-dlp -x --audio-format mp3 -o "data/lecture.%(ext)s" "https://www.youtube.com/watch?v=PINlGOKF9Lk"
+yt-dlp -x --audio-format mp3 -o "data/lecture.%(ext)s" "https://www.youtube.com/watch?v=2Nzyv6vGiic"
 python src/transcribe.py
 python src/ingest.py
 Run the app
@@ -103,7 +104,7 @@ sarvam-ai-tutor/
 │   ├── asr.py           # Online: Saaras V3 real-time for voice queries
 │   └── app.py           # Gradio UI tying it all together
 ├── data/                # (gitignored) audio, transcripts, ChromaDB
-└── docs/                # design notes
+
 Each module is runnable standalone for testing. E.g. python src/retrieve.py drops you into an interactive query loop against the index.
 
 Key architectural decisions
@@ -115,7 +116,7 @@ For a single-user demo over a small corpus (~14 chunks), file-based ChromaDB is 
 
 Why Sarvam-105B for the LLM (not Sarvam-30B / Sarvam-M)
 Sarvam-M is deprecated as of the current Sarvam API
-Sarvam-30B has noticeably weaker instruction-following on prompts with multiple constraints (grounding + language matching + format + tone)
+I tried out Sarvam-30B, but it has noticeably weaker instruction-following on prompts with multiple constraints (grounding + language matching + format + tone)
 Sarvam-105B's stronger reasoning was worth the slightly higher per-call cost for a demo where prompt adherence matters
 Why reasoning_effort=None
 Sarvam's hybrid thinking models default to thinking mode, which buries the final answer in reasoning_content and often hits the max_tokens limit before producing the user-facing answer. Setting reasoning_effort=None forces direct response mode — faster, cleaner output, content always lands in the content field where you'd expect.
@@ -133,10 +134,9 @@ Limitations and future work
 Known limitations:
 
 Code-mixed bias in responses. For queries about Hindi-language content, responses naturally lean Hindi-dominant with English keywords. This matches educated Indian speech patterns but means an English query may receive a Hindi-dominant answer. Documented as a deliberate UX choice — forced translation would strip cultural nuance.
-Small corpus (~14 chunks). With limited content, every query finds some match in retrieval. Out-of-scope handling relies entirely on the LLM's grounding instructions; in production with a larger corpus, distance thresholds could add a second defensive layer.
+
 Audio gaps in transcript. The source video has ~3 minutes of non-speech content (music, English news clips). Saaras V3 in transcribe mode skips these. A codemix mode re-run would recover the English clips at the cost of more API credits.
-No conversation memory. Each query is independent. A multi-turn conversation ("what about after that?") wouldn't carry context. Trivial to add with a message history buffer.
-Synchronous pipeline. ASR → retrieve → LLM → TTS run sequentially (~5-8s end-to-end). Streaming responses + parallel TTS would cut perceived latency to ~2s.
+
 Future work I'd prioritise:
 
 Re-rank retrieval results with a small cross-encoder for sharper top-K
@@ -144,6 +144,7 @@ Add a topic-classification step before retrieval to detect out-of-scope queries 
 Stream the LLM response and start TTS on completed sentences
 Multi-turn conversation memory
 Auto-detect and suggest a different language if response quality is low
+
 Sample interactions
 In-scope, Hindi query:
 
@@ -175,4 +176,4 @@ Audio	FFmpeg + yt-dlp
 Built in Python 3.13.
 
 Author
-Sriram Ragunathan Consultant at Bain & Company India IIT Madras (B.Tech Chemical Engineering + M.Tech Data Science)
+Sriram Ragunathan
